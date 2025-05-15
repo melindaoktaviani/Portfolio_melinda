@@ -21,26 +21,29 @@ window.onbeforeunload = () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   const themeToggle = document.getElementById("theme-toggle");
+  const themeIcon = document.getElementById("theme-icon");
   const body = document.body;
 
   // Cek tema yang disimpan di localStorage
   const savedTheme = localStorage.getItem("theme");
   if (savedTheme === "dark") {
     body.classList.add("dark-mode");
-    themeToggle.textContent = "Light Mode";
+    themeIcon.classList.remove("fa-sun");
+    themeIcon.classList.add("fa-moon");
   }
 
   // Event listener untuk tombol toggle
   themeToggle.addEventListener("click", () => {
     body.classList.toggle("dark-mode");
 
-    // Simpan preferensi tema ke localStorage
     if (body.classList.contains("dark-mode")) {
       localStorage.setItem("theme", "dark");
-      themeToggle.textContent = "Light Mode";
+      themeIcon.classList.remove("fa-sun");
+      themeIcon.classList.add("fa-moon");
     } else {
       localStorage.setItem("theme", "light");
-      themeToggle.textContent = "Dark Mode";
+      themeIcon.classList.remove("fa-moon");
+      themeIcon.classList.add("fa-sun");
     }
   });
 });
