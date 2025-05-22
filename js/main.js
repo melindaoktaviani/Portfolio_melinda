@@ -46,4 +46,42 @@ document.addEventListener("DOMContentLoaded", () => {
       themeIcon.classList.add("fa-sun");
     }
   });
+
+  const form = document.getElementById("contact-form");
+  const status = document.getElementById("form-status");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    // Validasi
+    if (!form.name.value.trim() || !form.email.value.trim() || !form.message.value.trim()) {
+      status.textContent = "Please fill all fields.";
+      return;
+    }
+
+    status.textContent = "Sending...";
+
+    const formData = {
+      name: form.name.value,
+      email: form.email.value,
+      message: form.message.value,
+    };
+    // fetch Api
+    try {
+      const response = await fetch("https://formspree.io/f/manoakgy", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        status.textContent = "Message sent successfully!";
+        form.reset();
+      } else {
+        status.textContent = "Failed to send message.";
+      }
+    } catch (err) {
+      status.textContent = "Failed to send message.";
+    }
+  });
 });
